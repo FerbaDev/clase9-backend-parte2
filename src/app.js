@@ -26,6 +26,38 @@ const main = async () => {
                     $sum: "$cantidad"
                 }
             }
+        },
+
+        //EJERCICIO 2: SE PIDEN NUEVOS STAGES Y QUE SE GUARDEN UNA NUEVA COLECCION
+        //Usaremos métodos sort, group...
+        {
+            $sort: {
+                total: -1
+                //significa que el orden es descendente, si el numero fuera 1 los ordena de manera ascendente
+            }
+        },
+        //vamos a agrupar y generar un reporte
+        {
+            $group: {
+                _id: 1,
+                orders: {
+                    $push: "$$ROOT",
+                    //PUSH INDICA QUE SE GUARDAN LOS RESULTAOS EN UN ARRAY, Y ROOT HACE REF AL DOC ACTUAL
+                }
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                orders: "$orders",
+                //le decimos que el campo order es igual a los resultados que guardamos en el paso anterior con el mismo nombre
+            }
+        },
+        //ultimo paso super importante, HACEMOS UN MERGE DE LOS RESULTADOS EN UNA NUEVA COLECCION
+        {
+            $merge: {
+                into: "reports"
+            }
         }
     ]);
     
