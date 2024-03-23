@@ -9,7 +9,11 @@ empieza metodo aggregate -------------  02:51
 
 se terminan de configurar stages ------ 03:07
 
+Pagination ---------------------------- 03:12
 
+instalando mongoose paginate ---------- 03:18
+
+dejé en 03:28
 
 
 

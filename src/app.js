@@ -13,6 +13,8 @@ const main = async () => {
 
 // EJERCICIO 1: ENCONTRAR PIZAS VENDIDAS POR SABOR EN TAMAÑO FAMILIAR
 
+/*
+
     const respuesta = await OrderModel.aggregate([
         {
             $match: {
@@ -62,6 +64,24 @@ const main = async () => {
     ]);
     
     console.log(respuesta);
+    */
+    const resultado = await OrderModel.paginate({"tam": "familiar"}, {limit: 2, page: 2});
+    console.log(resultado);
 }
 
 main();
+
+import express from "express";
+const app = express();
+const PUERTO = 8080;
+import exphbs from "express-handlebars";
+
+//Rutas
+app.get("/", (req, res) => {
+    res.send("Funciona")
+})
+
+//Listen
+app.listen(PUERTO, () => {
+    console.log(`Conectado a http://localhost:${PUERTO}`);
+})
