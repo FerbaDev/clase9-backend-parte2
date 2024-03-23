@@ -10,8 +10,25 @@ const main = async () => {
     .then(() => console.log("Conectado a Mongo DB"))
     .catch((error) => console.log("Conexión a Mongo DB falló", error)); 
 
-    const respuesta = await OrderModel.find();
-    //recordemos que find devuelve un array de objetos por lo tento podemos aplicar el metodo explain para ver las estaditicas de la consulta, exlpain puede llevar elparametro executionStats para obtener detalles d elos tiempos de demora de la consulta.
+
+// EJERCICIO 1: ENCONTRAR PIZAS VENDIDAS POR SABOR EN TAMAÑO FAMILIAR
+
+    const respuesta = await OrderModel.aggregate([
+        {
+            $match: {
+                tam: "familiar"
+            }
+        },
+        {
+            $group: {
+                _id: "$nombre",
+                total: {
+                    $sum: "$cantidad"
+                }
+            }
+        }
+    ]);
+    
     console.log(respuesta);
 }
 
