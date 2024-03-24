@@ -1,0 +1,17 @@
+<h1>Menú de Pizzas - La Pizzaria loca</h1>
+
+<ul>
+    {{#each pizzas}}
+        <li> {{this.nombre}} </li>
+        <li> {{this.tam}} </li>
+        <li> {{this.cantidad}} </li>
+    {{/each}}
+</ul>
+
+{{#if hasPrevPage}}
+<a href="/pizzas?page={{prevPage}}">Anerior</a>
+{{/if}}
+{{#if hasNextPage}}
+<a href="/pizzas?page={{nextPage}}">Siguiente</a>
+{{/if}}
+<p>Pagina {{currentPage}} de {{totalPages}} </p>

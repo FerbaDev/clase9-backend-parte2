@@ -65,20 +65,50 @@ const main = async () => {
     
     console.log(respuesta);
     */
-    const resultado = await OrderModel.paginate({"tam": "familiar"}, {limit: 2, page: 2});
-    console.log(resultado);
+    //const resultado = await OrderModel.paginate({"tam": "familiar"}, {limit: 2, page: 2});
+    //console.log(resultado);
 }
 
-main();
+//main();
 
 import express from "express";
 const app = express();
 const PUERTO = 8080;
 import exphbs from "express-handlebars";
+import "./mongoConfig.js"
+
+//configuramos handlebars en 3 lineas
+app.engine("handlebars", exphbs.engine()); //le digo a express que cuando encuentre un archivo con la ext handlebars lo tiene que renderizar con el motor de plantillas
+app.set("view engine", "handlebars"); //aca le decimos que el motor es handlebars
+app.set("views", "./src/views"); //aca le pasamos la ruta para que los encuentre
 
 //Rutas
-app.get("/", (req, res) => {
-    res.send("Funciona")
+app.get("/pizzas", async (req, res) => {
+    const page = req.query.page || 1;
+    const limit = 2;
+
+    try {
+        const pizzasList = await OrderModel.paginate({}, {limit, page});
+
+        //Recuperamos los docs: 
+
+        const pizzasResultadoFinal = pizzasList.docs.map( pizza => {
+            const {_id, ...rest} = pizza.toObject();
+            return rest; 
+        })
+
+        res.render("pizzas", {
+            pizzas: pizzasResultadoFinal,
+            hasPrevPage: pizzasList.hasPrevPage,
+            hasNextPage: pizzasList.hasNextPage,
+            prevPage: pizzasList.prevPage,
+            nextPage: pizzasList.nextPage,
+            currentPage: pizzasList.page,
+            totalPages: pizzasList.totalPages
+        })
+    } catch (error) {
+        
+    }
 })
 
 //Listen
