@@ -15,7 +15,8 @@ instalando mongoose paginate -------------------------- 03:18
 
 enviando objeto de paginate para renderizar en views -- 03:54
 
-dejé en 03:59
+como resolver el "access has been denied" ------------- 03:59
+
 
 
 
